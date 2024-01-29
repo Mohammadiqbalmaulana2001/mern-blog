@@ -5,7 +5,7 @@ export const signup = async (req, res, next) => {
     const { username, email, password } = req.body
     
     if(!username || !email || !password || username == '' || email == '' || password == ''){
-        next(HandleError(res, 400, "isi semua kolom"))
+        return next(HandleError(res, 400, "isi semua kolom"))
     }
     
     const hash = await bcrptyjs.hash(password, 10)
@@ -20,6 +20,6 @@ export const signup = async (req, res, next) => {
         await newUser.save()
         res.json( 'User created' )
     } catch (error) {
-        next(HandleError(res, 400, error.message))
+        return next(HandleError(res, 400, error.message))
     }
 }
