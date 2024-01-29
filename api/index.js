@@ -6,9 +6,21 @@ import authRoute from './routes/auth.route.js'
 
 const app = express()
 app.use(express.json())
+
 dotenv.config()
+
 app.use((req, res, next) => {
     console.log(req.path, req.method)
+    next()
+})
+app.use((err, req, res, next) => {
+    const statusCode = err.status || 500
+    const message = err.message || 'Internal server error'
+    res.status(statusCode).json({
+        success : false,
+        status : statusCode,
+        message: message
+    })
     next()
 })
 

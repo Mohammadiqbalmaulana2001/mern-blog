@@ -1,6 +1,3 @@
-export const HandleError = (statusCode, message) => {
-    const error = new Error()
-    error.statusCode = statusCode
-    error.message = message
-    return error
+export const HandleError = (res, statusCode, message) =>{
+    res.status(statusCode).json({ success: false, status: statusCode, message: message });
 }
