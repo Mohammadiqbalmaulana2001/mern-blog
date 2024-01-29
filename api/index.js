@@ -2,10 +2,15 @@ import express from 'express'
 import { mongoose } from 'mongoose'
 import dotenv from 'dotenv'
 import userRoute from './routes/user.route.js'
+import authRoute from './routes/auth.route.js'
 
 const app = express()
 app.use(express.json())
 dotenv.config()
+app.use((req, res, next) => {
+    console.log(req.path, req.method)
+    next()
+})
 
 mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
@@ -18,6 +23,7 @@ mongoose.connect(process.env.DB_URL, {
 })
 
 app.use('/api/users', userRoute)
+app.use('/api/auth', authRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`)
