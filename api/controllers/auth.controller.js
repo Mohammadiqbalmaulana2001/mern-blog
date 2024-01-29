@@ -1,12 +1,13 @@
 import User from "../models/user.model.js"
 import bcrptyjs from 'bcryptjs'
-export const signup = async (req, res) => {
+import { HandleError } from "../utils/error.js"
+export const signup = async (req, res, next) => {
     const { username, email, password } = req.body
     
     if(!username || !email || !password || username == '' || email == '' || password == ''){
-        return res.status(400).json({ message: 'Silakan isi semua kolom' })
+        next(HandleError(400, 'Silakan isi semua kolom' ))
     }
-
+    
     const hash = await bcrptyjs.hash(password, 10)
 
     const newUser = new User({
@@ -19,6 +20,6 @@ export const signup = async (req, res) => {
         await newUser.save()
         res.json( 'User created' )
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        next(error)
     }
 }
