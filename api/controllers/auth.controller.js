@@ -18,7 +18,7 @@ export const signup = async (req, res, next) => {
 
     try {
         await newUser.save()
-        res.json( 'User created' )
+        res.json( 'Data telah berhasil di tambahkan' )
     } catch (error) {
         return next(HandleError(res, 400, error.message))
     }
