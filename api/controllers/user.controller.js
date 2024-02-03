@@ -44,3 +44,15 @@ export const updateUser = async (req, res, next) => {
             next(HandleError(res, 400, error.message))
         }
 }
+
+export const deleteUser = async (req, res, next) => {
+    if(req.user.id !== req.params.userId){
+        return next(HandleError(res, 401, "Anda tidak diperbolehkan menghapus pengguna ini"))
+    }
+    try {
+        await User.findByIdAndDelete(req.params.userId)
+        res.status(200).json("Pengguna berhasil dihapus")
+    } catch (error) {
+        next(HandleError(res, 400, error.message))
+    }
+}
