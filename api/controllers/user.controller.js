@@ -16,17 +16,18 @@ export const updateUser = async (req, res, next) => {
         req.body.password = bcrptyjs.hashSync(req.body.password, 10)
     }
     if (req.body.username){
-        if (req.body.username.length < 7 || req.body.username.length > 20) {
-            return next(HandleError(res, 400, "Username minimal 7 dan maksimal 20 karakter"))
-        }
-        if(req.body.username.includes(" ")){
-            return next(HandleError(res, 400, "Username tidak boleh mengandung spasi"))
-        }
-        if(req.body.username !== req.body.username.toLowerCase()){
-            return next(HandleError(res, 400, "Username harus berupa huruf kecil"))
-        }
-        if(!req.body.username.match(/^[a-zA-Z0-9]+$/)){
-            return next(HandleError(res, 400, "Username hanya boleh berisi huruf dan angka"))
+            if (req.body.username.length < 7 || req.body.username.length > 20) {
+                return next(HandleError(res, 400, "Username minimal 7 dan maksimal 20 karakter"))
+            }
+            if(req.body.username.includes(" ")){
+                return next(HandleError(res, 400, "Username tidak boleh mengandung spasi"))
+            }
+            if(req.body.username !== req.body.username.toLowerCase()){
+                return next(HandleError(res, 400, "Username harus berupa huruf kecil"))
+            }
+            if(!req.body.username.match(/^[a-zA-Z0-9]+$/)){
+                return next(HandleError(res, 400, "Username hanya boleh berisi huruf dan angka"))
+            }
         }
         try {
             const updateUser = await User.findByIdAndUpdate(req.params.userId, {
@@ -42,5 +43,4 @@ export const updateUser = async (req, res, next) => {
         } catch (error) {
             next(HandleError(res, 400, error.message))
         }
-    }
 }
