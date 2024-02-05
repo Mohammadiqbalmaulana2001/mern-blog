@@ -6,12 +6,16 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/st
 import { app } from "../firebase";
 import {CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {useNavigate} from "react-router-dom"
 
 export default function CreatePost() {
     const [file,setFile] = useState(null)
     const [imageUploudProgress,setImageUploudProgress] = useState(null)
     const [imageUploudError,setImageUploudError] = useState(null)
     const [formData,setFormData] = useState({})
+    const [publishError, setPublishError] = useState(null)
+
+    const navigate = useNavigate()
 
     const handleUploud = async () =>{
         try {
@@ -48,13 +52,36 @@ export default function CreatePost() {
             console.log(error)
         }
     }
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
+        try {
+            const res = await fetch('/api/posts/create', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            const data = await res.json()
+            if(!res.ok){
+                setPublishError(data.message)
+                return
+            }
+            if(res.ok){
+                setPublishError(null)
+                navigate(`/post/${data.slug}`)
+            }
+        } catch (error) {
+            setPublishError('Tidak dapat menambahkan postingan')
+        }
+    }
   return (
     <div className="min-h-screen max-w-3xl mx-auto p-3">
         <h1 className="my-7 text-center font-semibold text-3xl">Membuat Postingan</h1>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 sm:flex-row justify-between">
-                <TextInput type="text" id="title" placeholder="Title" className="flex-1"/>
-                <Select>
+                <TextInput type="text" id="title" placeholder="Title" className="flex-1" onChange={(e)=>setFormData({...formData,title:e.target.value})}/>
+                <Select onChange={(e)=>setFormData({...formData,category:e.target.value})}>
                     <option value="uncategorized">Pilih Kategori</option>
                     <option value="javascripts">Javascripts</option>
                     <option value="reactjs">React.Js</option>
@@ -79,11 +106,14 @@ export default function CreatePost() {
                 imageUploudError && <Alert color={"failure"}>{imageUploudError}</Alert>
             }
             { formData.image && (<img src={formData.image} alt="uploud" className="w-full h-80 object-cover"/>)}
-            <ReactQuill theme="snow" placeholder="Tulis sesuatu" className="h-72 mb-12" required />
+            <ReactQuill theme="snow" placeholder="Tulis sesuatu" className="h-72 mb-12" required  onChange={(value) => setFormData({...formData,content:value})}/>
 
             <Button type="submit" gradientDuoTone="purpleToBlue" className="mt-5">
                 Publish
             </Button>
+            {
+                publishError && <Alert color={"failure"} className="mt-5">{publishError}</Alert>
+            }
         </form>
     </div>
   )
