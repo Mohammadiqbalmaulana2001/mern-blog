@@ -3,6 +3,7 @@ import { mongoose } from 'mongoose'
 import dotenv from 'dotenv'
 import userRoute from './routes/user.route.js'
 import authRoute from './routes/auth.route.js'
+import postRoute from './routes/post.route.js'
 import cookieParser from 'cookie-parser'
 
 const app = express()
@@ -38,6 +39,7 @@ mongoose.connect(process.env.DB_URL, {
 
 app.use('/api/users', userRoute)
 app.use('/api/auth', authRoute)
+app.use('/api/posts', postRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`)
