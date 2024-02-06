@@ -58,3 +58,15 @@ export const getposts = async (req, res, next) => {
         next(HandleError(res, 400, error.message))
     }
 }
+
+export const deletepost = async (req, res, next) => {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, 'kamu tidak bisa menghapus postingan ini'));
+        }
+        try {
+        await Post.findByIdAndDelete(req.params.postId);
+        res.status(200).json('postingan berhasil di hapus');
+        } catch (error) {
+        next(error);
+        }
+    };
