@@ -17,7 +17,7 @@ export default function DashPost() {
         const data = await res.json()
         if(res.ok){
           setUserPosts(data.post)
-          if(data.post.length < 9){
+          if(data.post.length < 10){
             setShowMore(false)
           }
         }
@@ -67,7 +67,7 @@ export default function DashPost() {
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Date Update</Table.HeadCell>
+              <Table.HeadCell>Tanggal Posting</Table.HeadCell>
               <Table.HeadCell>Postingan Gambar</Table.HeadCell>
               <Table.HeadCell>Postingan Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
