@@ -48,8 +48,21 @@ export default function DashUsers() {
     }
 
     const handleDeleteUsers = async () => {
-        
-    }
+        try {
+            const res = await fetch(`/api/users/delete/${usersIdToDelete}`, {
+                method: 'DELETE',
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setUsers((prev) => prev.filter((user) => user._id !== usersIdToDelete));
+                setModal(false);
+            } else {
+                console.log(data.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
     
     return (
         <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 srollbar-thumb-slate-300 dark:srollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
@@ -99,7 +112,7 @@ export default function DashUsers() {
             <Modal.Body>
             <div className="text-center">
                 <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200"/>
-                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">apakah anda yakin ingin menghapus postingan ini ?</h3>
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">apakah anda yakin ingin menghapus Akun ini ?</h3>
                 <div className="flex justify-center gap-4">
                     <Button color="failure" onClick={handleDeleteUsers}>Ya, Saya Yakin</Button>
                     <Button color="gray" onClick={() => setModal(false)}>Tidak, Batalkan</Button>
