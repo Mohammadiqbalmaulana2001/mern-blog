@@ -101,3 +101,16 @@ export const getusers = async (req, res, next) => {
         next(HandleError(res, 400, error.message))
     }
 }
+
+export const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.userId)
+        if(!user){
+            return next(HandleError(res, 404, "Pengguna tidak ditemukan"))
+        }
+        const { password, ...rest } = user._doc
+        res.status(200).json(rest)
+    } catch (error) {
+        next(HandleError(res, 400, error.message))
+    }
+}
