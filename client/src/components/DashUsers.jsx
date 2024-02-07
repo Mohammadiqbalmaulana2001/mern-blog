@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import {Button, Modal, Table} from 'flowbite-react'
-import {Link} from 'react-router-dom'
 import { HiOutlineExclamationCircle } from "react-icons/hi"
 import {FaCheck, FaTimes} from "react-icons/fa"
 export default function DashUsers() {
