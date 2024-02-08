@@ -3,11 +3,13 @@ import { Link, useParams } from "react-router-dom"
 import { Button, Spinner } from "flowbite-react"
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 export default function PostPage() {
     const {postSlug} = useParams();
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [post, setPost] = useState(null)
+    const [artikelTerbaru, setArtikelTerbaru] = useState(null)
     
     useEffect(()=>{
         const fetchPost = async ()=>{
@@ -32,6 +34,21 @@ export default function PostPage() {
         }
         fetchPost()
     },[postSlug])
+
+    useEffect(()=>{
+       try {
+        const artikelTerbaru = async ()=>{
+            const res = await fetch('/api/posts/getposts?limit=4')
+            const data = await res.json()
+            if(res.ok){
+                setArtikelTerbaru(data.post)
+            }
+        }
+        artikelTerbaru()
+       } catch (error) {
+        console.log(error.message)
+       } 
+    },[])
     if(loading){
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -56,6 +73,17 @@ export default function PostPage() {
             <CallToAction/>
         </div>
         <CommentSection postId={post._id}/>
+
+        <div className="flex flex-col  justify-center items-center my-6">
+            <h1 className="text-2xl font-semibold mt-5">Postingan Terbaru</h1>
+            <div className=" flex flex-wrap gap-5 mt-5  justify-center">
+                {
+                    artikelTerbaru && artikelTerbaru.map((post)=>
+                        <PostCard key={post._id} post={post}/>
+                    )
+                }
+            </div>
+        </div>
     </main>
   )
 }
