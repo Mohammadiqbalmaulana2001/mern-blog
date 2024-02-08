@@ -103,7 +103,7 @@ export default function DashUsers() {
             )}
             </>
         ) : (
-            <p>Tidak ada postingan</p>
+            <p>Tidak ada user</p>
         )
         }
         <Modal show={modal} onClose={() => setModal(false)} popup size={"md"}>
