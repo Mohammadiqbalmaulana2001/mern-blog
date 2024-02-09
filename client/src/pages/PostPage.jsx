@@ -75,8 +75,8 @@ export default function PostPage() {
         <CommentSection postId={post._id}/>
 
         <div className="flex flex-col  justify-center items-center my-6">
-            <h1 className="text-2xl font-semibold mt-5">Postingan Terbaru</h1>
-            <div className=" flex flex-wrap gap-5 mt-5  justify-center">
+            <h1 className="text-2xl font-semibold mt-5 mb-8">Postingan Terbaru</h1>
+            <div className=" lg:grid lg:grid-cols-2 sm:grid sm:grid-cols-2 gap-5 flex flex-wrap">
                 {
                     artikelTerbaru && artikelTerbaru.map((post)=>
                         <PostCard key={post._id} post={post}/>
