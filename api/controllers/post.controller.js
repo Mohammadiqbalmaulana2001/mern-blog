@@ -26,7 +26,7 @@ export const create = async (req, res, next) => {
 export const getposts = async (req, res, next) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0
-        const limit = parseInt(req.query.limit) || 10
+        const limit = parseInt(req.query.limit) || 12
         const sortDirection = req.query.order === 'asc' ? 1 : -1
         const post = await Post.find({
             ...(req.query.userId && {userId: req.query.userId}),
@@ -94,3 +94,13 @@ export const deletepost = async (req, res, next) => {
           next(error);
         }
       };
+
+export const postingan = async (req, res, next) => {
+    try {
+        const post = await Post.find()
+        res.status(200).json(post);
+    } catch (error) {
+        next(error)
+    }
+    
+}

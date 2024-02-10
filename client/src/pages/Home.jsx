@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import PostCard from '../components/PostCard'
 export default function Home() {
   const [post,setPost] = useState([])
-  
+  console.log(post)
   useEffect(()=>{
     const fetchPost = async ()=>{
       const res = await fetch('api/posts/getposts')

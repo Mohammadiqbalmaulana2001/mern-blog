@@ -84,8 +84,12 @@ export default function CreatePost() {
                 <Select onChange={(e)=>setFormData({...formData,category:e.target.value})}>
                     <option value="uncategorized">Pilih Kategori</option>
                     <option value="javascripts">Javascripts</option>
+                    <option value="python">Python</option>
                     <option value="reactjs">React.Js</option>
                     <option value="nextjs">Next.Js</option>
+                    <option value="expressjs">Express.js</option>
+                    <option value="mongodb">Mongo.db</option>
+                    <option value="machine_learning">Machine Learning</option>
                 </Select>
             </div>
 

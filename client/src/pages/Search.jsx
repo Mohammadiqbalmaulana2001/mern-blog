@@ -40,7 +40,7 @@ export default function Search() {
                 const data = await res.json()
                 setPost(data.post)
                 setLoading(false)
-                if(data.post.length === 10){
+                if(data.post.length === 12){
                     setShowMore(true)
                 }else{
                     setShowMore(false)
@@ -75,23 +75,23 @@ export default function Search() {
     }
 
     const handleShowMore = async () => {
-        const numberOfPosts = post.length;
-        const startIndex = numberOfPosts;
-        const urlParams = new URLSearchParams(location.search);
-        urlParams.set('startIndex', startIndex);
-        const searchQuery = urlParams.toString();
-        const res = await fetch(`/api/post/getposts?${searchQuery}`);
+        const numberOfPosts = post.length
+        const startIndex = numberOfPosts
+        const urlParams = new URLSearchParams(location.search)
+        urlParams.set('searchTerm', startIndex)
+        const searchQuery = urlParams.toString()
+        const res = await fetch(`/api/posts/getposts?${searchQuery}`)
         if (!res.ok) {
-          return;
+            return;
         }
-        if (res.ok) {
-          const data = await res.json();
-          setPost([...post, ...data.post]);
-          if (data.posts.length === 10) {
-            setShowMore(true);
-          } else {
-            setShowMore(false);
-          }
+        if(res.ok){
+            const data = await res.json()
+            setPost([...post, ...data.post])
+            if(data.post.length === 12){
+                setShowMore(true)
+            }else{
+                setShowMore(false)
+            }
         }
       };
   return (
@@ -103,19 +103,23 @@ export default function Search() {
                     <TextInput placeholder='Search..' id='searchTerm' type='text' value={sidebarData.searchTerm} onChange={handleChange}/>
                 </div>
                 <div className='flex items-center gap-2'>
-                    <label className='font-semibold'> Sort</label>
+                    <label className='font-semibold'> Menyortir</label>
                     <Select id='sort' value={sidebarData.sort } onChange={handleChange}>
-                        <option value='desc'>Latest</option>
-                        <option value='asc'>Oldest</option>
+                        <option value='desc'>Terbaru</option>
+                        <option value='asc'>Terlama</option>
                     </Select>
                 </div>
                 <div className='flex items-center gap-2'>
-                    <label className='font-semibold'>Category</label>
+                    <label className='font-semibold'>Categori</label>
                     <Select id='category' value={sidebarData.category } onChange={handleChange}>
-                        <option value='uncategory'>Uncategory</option>
-                        <option value='reactjs'>React.js</option>
-                        <option value='nextjs'>Next.js</option>
-                        <option value='javascript'>Javascript</option>
+                        <option value="uncategorized">Pilih Kategori</option>
+                        <option value="javascripts">Javascripts</option>
+                        <option value="python">Python</option>
+                        <option value="reactjs">React.Js</option>
+                        <option value="nextjs">Next.Js</option>
+                        <option value="expressjs">Express.js</option>
+                        <option value="mongodb">Mongo.db</option>
+                        <option value="machine_learning">Machine Learning</option>
                     </Select>
                 </div>
                 <Button type='submit' outline gradientDuoTone={"purpleToBlue"}>Terapkan Filter</Button>
