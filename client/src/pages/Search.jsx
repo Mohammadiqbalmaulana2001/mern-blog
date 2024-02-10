@@ -13,7 +13,7 @@ export default function Search() {
     const [showMore, setShowMore] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
-    console.log(sidebarData)
+    
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
         const searchTermFromUrl = urlParams.get('searchTerm')
@@ -102,13 +102,13 @@ export default function Search() {
                     <label className='whitespace-nowrap font-semibold'>Pencarian</label>
                     <TextInput placeholder='Search..' id='searchTerm' type='text' value={sidebarData.searchTerm} onChange={handleChange}/>
                 </div>
-                <div className='flex items-center gap-2'>
+                {/* <div className='flex items-center gap-2'>
                     <label className='font-semibold'> Menyortir</label>
                     <Select id='sort' value={sidebarData.sort } onChange={handleChange}>
                         <option value='desc'>Terbaru</option>
                         <option value='asc'>Terlama</option>
                     </Select>
-                </div>
+                </div> */}
                 <div className='flex items-center gap-2'>
                     <label className='font-semibold'>Categori</label>
                     <Select id='category' value={sidebarData.category } onChange={handleChange}>
