@@ -6,11 +6,12 @@ import authRoute from './routes/auth.route.js'
 import postRoute from './routes/post.route.js'
 import commentRoute from './routes/comment.route.js'
 import cookieParser from 'cookie-parser'
+import path from 'path'
 
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
-
+const __dirname = path.resolve();
 dotenv.config()
 
 app.use((req, res, next) => {
@@ -42,6 +43,12 @@ app.use('/api/users', userRoute)
 app.use('/api/auth', authRoute)
 app.use('/api/posts', postRoute)
 app.use('/api/comment', commentRoute)
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on port ${process.env.PORT}`)
