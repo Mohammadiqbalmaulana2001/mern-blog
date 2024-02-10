@@ -181,9 +181,9 @@ export default function DashboardComp() {
           </div>
           <Table hoverable>
             <Table.Head>
-              <Table.HeadCell>Post image</Table.HeadCell>
-              <Table.HeadCell>Post Title</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
+              <Table.HeadCell>Postingan Gsmbar</Table.HeadCell>
+              <Table.HeadCell>Judul Postingan</Table.HeadCell>
+              <Table.HeadCell>Categori</Table.HeadCell>
             </Table.Head>
             {posts &&
               posts.map((post) => (
